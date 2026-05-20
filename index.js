@@ -31,6 +31,7 @@ app.get("/all-facilities", async(req,res)=>{
 })
 
 //addfacility server post method
+//add 
 app.post("/add-facility", async (req, res) => {
   const newFacility = req.body;
   const result = await facilityCollection.insertOne(newFacility);
