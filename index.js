@@ -23,6 +23,9 @@ async function run() {
 //create database
 const db = client.db("sports")
 const facilityCollection = db.collection("facilities")
+//booking information collection
+const bookingInformationCollection = db.collection("bookinginformation")
+
 
 //get method allfacility data add
 app.get("/all-facilities", async(req,res)=>{
@@ -45,6 +48,20 @@ app.post("/add-facility", async (req, res) => {
   res.send(result);
 });
 
+//booking information
+
+app.post("/booking" , async(req,res) =>{
+  const bookingInformation = req.body;
+  const result = await bookingInformationCollection.insertOne(bookingInformation);
+  res.send(result);
+})
+
+//my booking get method here
+app.get("/booking/:userId", async(req, res) =>{
+  const {userId} = req.params;
+  const result = await bookingInformationCollection.find({userId: userId}).toArray();
+  res.send(result)
+})
 
 
     await client.db("admin").command({ ping: 1 });
