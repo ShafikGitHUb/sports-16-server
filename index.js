@@ -25,6 +25,8 @@ const db = client.db("sports")
 const facilityCollection = db.collection("facilities")
 //booking information collection
 const bookingInformationCollection = db.collection("bookinginformation")
+//review information collection
+const reviewCollection = db.collection("reviews");
 
 
 //get method allfacility data add
@@ -32,6 +34,7 @@ app.get("/all-facilities", async(req,res)=>{
   const result = await facilityCollection.find().toArray()
   res.send(result)
 })
+
 
 //add allfacilitydetails server get method
 app.get("/all-facilities/:id", async(req,res)=>{
@@ -63,6 +66,19 @@ app.get("/booking/:userId", async(req, res) =>{
   res.send(result)
 })
 
+//booking delete
+app.delete("/booking/:bookingId", async(req, res) =>{
+  const {bookingId} = req.params;
+  const result = await bookingInformationCollection.deleteOne({_id: new ObjectId(bookingId)})
+  res.send(result)
+})
+
+
+//review get method 
+app.get("/reviews", async (req, res) => {
+  const result = await reviewCollection.find().toArray();
+  res.send(result);
+});
 
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
