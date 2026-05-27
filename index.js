@@ -70,7 +70,7 @@ app.get("/all-facilities/:id",verifyToken, async(req,res)=>{
 
 
 //addfacility server post method
-app.post("/add-facility", async (req, res) => {
+app.post("/add-facility",verifyToken, async (req, res) => {
   const newFacility = req.body;
   const result = await facilityCollection.insertOne(newFacility);
   res.send(result);
@@ -78,21 +78,21 @@ app.post("/add-facility", async (req, res) => {
 
 //booking information
 
-app.post("/booking" , async(req,res) =>{
+app.post("/booking" , verifyToken,async(req,res) =>{
   const bookingInformation = req.body;
   const result = await bookingInformationCollection.insertOne(bookingInformation);
   res.send(result);
 })
 
 //my booking get method here
-app.get("/booking/:userId", async(req, res) =>{
+app.get("/booking/:userId",verifyToken, async(req, res) =>{
   const {userId} = req.params;
   const result = await bookingInformationCollection.find({userId: userId}).toArray();
   res.send(result)
 })
 
 //booking delete
-app.delete("/booking/:bookingId", async(req, res) =>{
+app.delete("/booking/:bookingId", verifyToken, async(req, res) =>{
   const {bookingId} = req.params;
   const result = await bookingInformationCollection.deleteOne({_id: new ObjectId(bookingId)})
   res.send(result)
